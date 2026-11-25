@@ -65,7 +65,7 @@ BurnCloud 各 Rust crate 仓库的模板。仓库根的清单、锁文件和工�
 
 ### 换成真实审批账号
 
-`.github/CODEOWNERS` 用前导斜杠写出仓库根上的受保护路径，并加上 `**/build.rs` 覆盖 workspace 成员的构建脚本。`Cargo.lock` 不在里面。
+`.github/CODEOWNERS` 用前导斜杠写出仓库根上的受保护路径。`**/Cargo.toml` 和 `**/build.rs` 覆盖 workspace 成员的清单和构建脚本。`Cargo.lock` 不在里面。
 
 每一行现在是两个占位：`@REPLACE-WITH-OWNER`（仓库所有者本人）和 `@REPLACE-WITH-REVIEWER`（专门的审核账号）。占位账号不存在时，GitHub 会静默跳过该规则，Code Owner 审批形同虚设。必须换成对仓库有写权限的真实账号，然后执行：
 
