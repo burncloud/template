@@ -1,9 +1,22 @@
-# 审批账号还没定。下面的 @burncloud/APPROVER-TBD 是占位，不是真实团队。
-# 从本模板新建仓库后，把每一行换成真实的用户或团队，再打开 Code Owner 审批。
+# 审批人还没定。@REPLACE-WITH-OWNER 是仓库所有者本人，@REPLACE-WITH-REVIEWER 是专门的审核账号。
+# 这两个都是占位，不是真实用户。
+# 占位账号不存在时 GitHub 会静默跳过该规则，Code Owner 审批形同虚设。
+# 必须替换为对仓库有写权限的真实账号，然后执行：
+#   gh api repos/{owner}/{repo}/codeowners/errors
+# 返回的 errors 为空才算配好。
+# Cargo.lock 不在这份名单里。
 
-.github/ @burncloud/APPROVER-TBD
-rust-toolchain.toml @burncloud/APPROVER-TBD
-deny.toml @burncloud/APPROVER-TBD
-Cargo.toml @burncloud/APPROVER-TBD
-.cargo/ @burncloud/APPROVER-TBD
-unsafe-crates.txt @burncloud/APPROVER-TBD
+/.github/ @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
+/.cargo/ @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
+/vendor/ @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
+/contracts/ @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
+/supply-chain/ @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
+/Cargo.toml @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
+/deny.toml @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
+/clippy.toml @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
+/rustfmt.toml @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
+/rust-toolchain @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
+/rust-toolchain.toml @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
+/unsafe-crates.txt @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
+/build.rs @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
+**/build.rs @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER

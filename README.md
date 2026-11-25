@@ -2,7 +2,7 @@
 
 BurnCloud 各 Rust crate 仓库的模板。仓库根的清单、锁文件和工具链可以直接复制到新仓库。`.github/workflows/ci.yml` 调用 [burncloud/ci](https://github.com/burncloud/ci) 的共享工作流，用来在另一个仓库里跑出真实的检查名。
 
-当前钉死的 `burncloud/ci` 提交是 `9236264ec7b8a7b22c622fd0d0ad69c495b15348`。`v1` 还没有打。发布之后，调用处可以改成 `@v1`，也可以继续保留完整 SHA。组织规则集里的 required workflow 应钉 `vX.Y.Z` 或 40 位 SHA。
+当前钉死的 `burncloud/ci` 提交是 `9236264ec7b8a7b22c622fd0d0ad69c495b15348`。`uses` 只允许 40 位完整 SHA，或 `vX.Y.Z` 这种不可变标签。禁止 `v1` 这类会移动的浮动标签，也禁止分支名。
 
 ## 用这个模板新建 crate 仓库
 
@@ -26,12 +26,18 @@ BurnCloud 各 Rust crate 仓库的模板。仓库根的清单、锁文件和工�
 
 ### 单仓库规则集或分支保护
 
-在 `main` 上配置本仓库自己的规则集，或经典分支保护：
+规则集 JSON 以 [burncloud/ci 的 `docs/rulesets/crate-main.json`](https://github.com/burncloud/ci/blob/main/docs/rulesets/crate-main.json) 为准。本仓库不复制这份 JSON。
+
+在 `main` 上按那份 JSON 配置本仓库自己的规则集：
 
 - 禁止直接推送，禁止强推，合并必须走 pull request。
 - 至少 1 人批准，并且要求 Code Owner 审批。
 - 推了新提交之后，已有批准作废，需要重新审批。
 - 必需状态检查使用下面实测的 `rust / ...` 名字。每一项的 `integration_id` 都是 `15368`（GitHub Actions）。`rust / resolve` 的结论是 skipped，不要把它设为必需检查。
+- `bypass_actors` 使用 `{"actor_type":"RepositoryRole","actor_id":5,"bypass_mode":"pull_request"}`。这是仓库管理员，而且只能在 pull request 里绕过，用来合并改了受保护路径的 PR。
+- 免费套餐没有 `evaluate`。规则集先以 Disabled 建立，把 API 读回的内容和 `crate-main.json` 核对一致，再改成 Active。
+
+仓库设置里还要做两件事：外部贡献者的 pull request 在跑 Actions 之前必须先批准；关闭「允许 GitHub Actions 创建和批准 PR」。
 
 这次在私有调用方上实测到的 19 个检查名：
 
@@ -59,7 +65,15 @@ BurnCloud 各 Rust crate 仓库的模板。仓库根的清单、锁文件和工�
 
 ### 换成真实审批账号
 
-`.github/CODEOWNERS` 里的 `@burncloud/APPROVER-TBD` 是占位。审批账号定下来之后，把文件里的每一行换成真实用户或团队，再启用上一节的 Code Owner 审批。
+`.github/CODEOWNERS` 用前导斜杠写出仓库根上的受保护路径，并加上 `**/build.rs` 覆盖 workspace 成员的构建脚本。`Cargo.lock` 不在里面。
+
+每一行现在是两个占位：`@REPLACE-WITH-OWNER`（仓库所有者本人）和 `@REPLACE-WITH-REVIEWER`（专门的审核账号）。占位账号不存在时，GitHub 会静默跳过该规则，Code Owner 审批形同虚设。必须换成对仓库有写权限的真实账号，然后执行：
+
+```bash
+gh api repos/{owner}/{repo}/codeowners/errors
+```
+
+返回的 `errors` 为空，才算配好。然后再启用上一节的 Code Owner 审批。
 
 ### 局限
 
