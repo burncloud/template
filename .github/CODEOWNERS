@@ -1,22 +1,21 @@
-# 审批人还没定。@REPLACE-WITH-OWNER 是仓库所有者本人，@REPLACE-WITH-REVIEWER 是专门的审核账号。
-# 这两个都是占位，不是真实用户。
-# 占位账号不存在时 GitHub 会静默跳过该规则，Code Owner 审批形同虚设。
-# 必须替换为对仓库有写权限的真实账号，然后执行：
+# rustburn 写代码，是仓库所有者；紧急时走管理员在 pull request 里的 bypass。
+# ivories（GitHub id 12606587）负责审批，是 Code Owner。
+# 配好后执行：
 #   gh api repos/{owner}/{repo}/codeowners/errors
-# 返回的 errors 为空才算配好。
+# 返回的 errors 必须为空。
 # Cargo.lock 不在这份名单里。
 
-/.github/ @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
-/.cargo/ @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
-/vendor/ @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
-/contracts/ @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
-/supply-chain/ @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
-**/Cargo.toml @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
-/deny.toml @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
-/clippy.toml @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
-/rustfmt.toml @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
-/rust-toolchain @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
-/rust-toolchain.toml @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
-/unsafe-crates.txt @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
-/build.rs @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
-**/build.rs @REPLACE-WITH-OWNER @REPLACE-WITH-REVIEWER
+/.github/ @rustburn @ivories
+/.cargo/ @rustburn @ivories
+/vendor/ @rustburn @ivories
+/contracts/ @rustburn @ivories
+/supply-chain/ @rustburn @ivories
+**/Cargo.toml @rustburn @ivories
+/deny.toml @rustburn @ivories
+/clippy.toml @rustburn @ivories
+/rustfmt.toml @rustburn @ivories
+/rust-toolchain @rustburn @ivories
+/rust-toolchain.toml @rustburn @ivories
+/unsafe-crates.txt @rustburn @ivories
+/build.rs @rustburn @ivories
+**/build.rs @rustburn @ivories
