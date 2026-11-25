@@ -1,0 +1,23 @@
+# 工作流名保持 CI，不要改成 Rust。检查名里的 rust / 来自下面的 job id。
+name: CI
+
+# 调用 burncloud/ci 的共享 Rust 检查。
+# uses 只允许 40 位完整 SHA，或 vX.Y.Z 这种不可变标签。
+# 禁止 v1 这类会移动的浮动标签，也禁止分支名。
+on:
+  pull_request:
+  merge_group:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  rust:
+    # v1.0.0 指向 56aa8aabde61bc50e41e0b63ed345caa4810604a。
+    uses: burncloud/ci/.github/workflows/rust.yml@v1.0.0

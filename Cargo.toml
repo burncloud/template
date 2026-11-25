@@ -1,0 +1,14 @@
+# 模板库不发布。复制到新 crate 仓库后，再按那个 crate 的发布策略改 publish。
+[package]
+name = "burncloud-template"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.100.0"
+license = "MIT OR Apache-2.0"
+publish = false
+description = "BurnCloud crate 仓库模板中的最小库。"
+
+# 编译器在 cargo clippy 和 cargo test 时拒绝 unsafe。
+# 防作弊检查会比较这张表，后续 pull request 不能改它。
+[lints.rust]
+unsafe_code = "forbid"

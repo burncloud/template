@@ -1,0 +1,21 @@
+# rustburn 写代码，是仓库所有者；紧急时走管理员在 pull request 里的 bypass。
+# ivories（GitHub id 12606587）负责审批，是 Code Owner。
+# 配好后执行：
+#   gh api repos/{owner}/{repo}/codeowners/errors
+# 返回的 errors 必须为空。
+# Cargo.lock 不在这份名单里。
+
+/.github/ @rustburn @ivories
+/.cargo/ @rustburn @ivories
+/vendor/ @rustburn @ivories
+/contracts/ @rustburn @ivories
+/supply-chain/ @rustburn @ivories
+**/Cargo.toml @rustburn @ivories
+/deny.toml @rustburn @ivories
+/clippy.toml @rustburn @ivories
+/rustfmt.toml @rustburn @ivories
+/rust-toolchain @rustburn @ivories
+/rust-toolchain.toml @rustburn @ivories
+/unsafe-crates.txt @rustburn @ivories
+/build.rs @rustburn @ivories
+**/build.rs @rustburn @ivories
