@@ -1,0 +1,4 @@
+# cargo 的构建产物。共享检查会自己编译，不应进入版本库。
+/target
+# 本地按工作流的方式把 burncloud/ci checkout 到这里时，不要提交。
+.burncloud-ci/

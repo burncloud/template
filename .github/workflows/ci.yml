@@ -1,0 +1,22 @@
+name: CI
+
+# 调用 burncloud/ci 的共享 Rust 检查。
+# 下面钉的是 burncloud/ci main 上的完整提交 SHA。v1 还没有打。
+# v1 发布后可以把这个 ref 换成 @v1，也可以继续保留 SHA。
+# 组织规则集里的 required workflow 仍应钉 vX.Y.Z 或 40 位 SHA，不要钉会移动的 v1。
+on:
+  pull_request:
+  merge_group:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  rust:
+    uses: burncloud/ci/.github/workflows/rust.yml@9236264ec7b8a7b22c622fd0d0ad69c495b15348
