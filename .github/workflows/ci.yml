@@ -1,3 +1,4 @@
+# 工作流名保持 CI，不要改成 Rust。检查名里的 rust / 来自下面的 job id。
 name: CI
 
 # 调用 burncloud/ci 的共享 Rust 检查。

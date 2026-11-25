@@ -1,0 +1,9 @@
+# 审批账号还没定。下面的 @burncloud/APPROVER-TBD 是占位，不是真实团队。
+# 从本模板新建仓库后，把每一行换成真实的用户或团队，再打开 Code Owner 审批。
+
+.github/ @burncloud/APPROVER-TBD
+rust-toolchain.toml @burncloud/APPROVER-TBD
+deny.toml @burncloud/APPROVER-TBD
+Cargo.toml @burncloud/APPROVER-TBD
+.cargo/ @burncloud/APPROVER-TBD
+unsafe-crates.txt @burncloud/APPROVER-TBD

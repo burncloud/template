@@ -14,6 +14,57 @@ BurnCloud 各 Rust crate 仓库的模板。仓库根的清单、锁文件和工�
 
 本模板不提交 `deny.toml`。共享工作流会从调用方仓库向上查找；找不到时使用 `burncloud/ci` 里的默认 `deny.toml`。只有策略和默认值不同时才在调用方提交自己的文件，而那个文件一旦提交就受保护。
 
+## 从本模板新建仓库后必须做的设置
+
+下面的设置由新建仓库的人来做。本模板只把要求写在这里，不改组织设置，也不改任何仓库的规则集。
+
+调用方工作流 `.github/workflows/ci.yml` 的名字是 `CI`，不要改成 `Rust`。`uses` 钉在 `9236264ec7b8a7b22c622fd0d0ad69c495b15348`。检查名里的 `rust /` 来自 job id `rust`。
+
+### 仓库必须公开
+
+仓库必须是 public。GitHub 免费套餐下，私有仓库用不了规则集和分支保护。
+
+### 单仓库规则集或分支保护
+
+在 `main` 上配置本仓库自己的规则集，或经典分支保护：
+
+- 禁止直接推送，禁止强推，合并必须走 pull request。
+- 至少 1 人批准，并且要求 Code Owner 审批。
+- 推了新提交之后，已有批准作废，需要重新审批。
+- 必需状态检查使用下面实测的 `rust / ...` 名字。每一项的 `integration_id` 都是 `15368`（GitHub Actions）。`rust / resolve` 的结论是 skipped，不要把它设为必需检查。
+
+这次在私有调用方上实测到的 19 个检查名：
+
+| 检查名 | 设为必需 |
+| --- | --- |
+| `rust / lint / fmt` | 是 |
+| `rust / lint / clippy` | 是 |
+| `rust / lint / unsafe` | 是 |
+| `rust / test / cargo-test` | 是 |
+| `rust / test / doc-test` | 是 |
+| `rust / test / cargo-doc` | 是 |
+| `rust / test / msrv` | 是 |
+| `rust / test / extra-targets` | 是 |
+| `rust / test / wit` | 是 |
+| `rust / test / proptest` | 是 |
+| `rust / test / fuzz` | 是 |
+| `rust / test / mutants` | 是 |
+| `rust / supply-chain / deny` | 是 |
+| `rust / supply-chain / audit` | 是 |
+| `rust / supply-chain / vet` | 是 |
+| `rust / api / semver` | 是 |
+| `rust / api / capabilities` | 是 |
+| `rust / protect / protected-paths` | 是 |
+| `rust / resolve` | 否。结论是 skipped |
+
+### 换成真实审批账号
+
+`.github/CODEOWNERS` 里的 `@burncloud/APPROVER-TBD` 是占位。审批账号定下来之后，把文件里的每一行换成真实用户或团队，再启用上一节的 Code Owner 审批。
+
+### 局限
+
+pull request 的作者可以修改 `.github/workflows/ci.yml`，例如换掉 `uses`，或把 job 改成空的。调用方这份 YAML 挡不住这种修改。`.github/` 已经交给 CODEOWNERS，安全性靠审批账号批准这些改动来兜底。
+
 ## 受保护、不能在 pull request 里改的路径
 
 名单来自 `burncloud/ci` 的 `scripts/check-protected-paths.sh`。调用方不传 `protected-paths` 时用这份默认列表。名单匹配的是新增、修改和删除。
