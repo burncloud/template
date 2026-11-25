@@ -19,4 +19,5 @@ concurrency:
 
 jobs:
   rust:
-    uses: burncloud/ci/.github/workflows/rust.yml@9236264ec7b8a7b22c622fd0d0ad69c495b15348
+    # v1.0.0 指向 56aa8aabde61bc50e41e0b63ed345caa4810604a。
+    uses: burncloud/ci/.github/workflows/rust.yml@v1.0.0
